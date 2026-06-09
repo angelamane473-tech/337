@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WOWARE | Financial Information Consulting</title>
+    <style>
+        :root {
+            --main-dark: #121926;
+            --main-light: #FFF8F3;
+            --aux-blue: #5A7FA6;
+            --aux-pink: #EADFEA;
+            --high-gray: #ABABAB;
+            --high-green: #9CD9BD;
+            --neu-purple: #EAE0E6;
+            --neu-yellow: #FFC136;
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.12);
+            --transition: all 0.4s ease;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+        body {
+            background-color: var(--main-light);
+            color: var(--main-dark);
+            overflow-x: hidden;
+            line-height: 1.65;
+        }
+        /* Header & Nav */
+        header {
+            background-color: var(--main-dark);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: var(--shadow-sm);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            padding: 18px 0;
+            color: var(--main-light);
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 38px;
+        }
+        .nav-menu a {
+            color: var(--main-light);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            padding: 24px 0;
+            display: inline-block;
+            position: relative;
+        }
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 18px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--high-green);
+            transition: var(--transition);
+        }
+        .nav-menu a:hover {
+            color: var(--high-green);
+        }
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+        .mobile-menu-btn {
+            display: none;
+            color: var(--main-light);
+            font-size: 28px;
+            cursor: pointer;
+        }
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: var(--main-dark);
+            transition: left 0.4s ease;
+            padding: 80px 30px;
+            z-index: 9999;
+        }
+        .mobile-nav.active {
+            left: 0;
+        }
+        .mobile-nav-close {
+            position: absolute;
+            top: 22px;
+            right: 22px;
+            color: var(--main-light);
+            font-size: 32px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .mobile-nav-close:hover {
+            color: var(--high-green);
+        }
+        .mobile-nav a {
+            display: block;
+            color: var(--main-light);
+            font-size: 20px;
+            padding:16px 0;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: var(--transition);
+        }
+        .mobile-nav a:hover {
+            color: var(--high-green);
+            padding-left: 10px;
+        }
+        /* Section Common */
+        section {
+            padding: 90px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .section-header {
+            margin-bottom: 60px;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 38px;
+            color: var(--main-dark);
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+        .section-subtitle {
+            text-align: center;
+            max-width:700px;
+            margin:0 auto;
+            color: var(--aux-blue);
+            font-size:18px;
+            line-height:1.7;
+        }
+        .section-divider {
+            width: 80px;
+            height: 3px;
+            background: var(--high-green);
+            margin: 12px auto 0;
+            border-radius: 3px;
+        }
+        /* Hero */
+        #home {
+            padding:0;
+        }
+        .hero-wrap {
+            display: grid;
+            grid-template-columns: 55% 45%;
+            align-items: center;
+            background: linear-gradient(135deg, var(--main-dark) 60%, var(--aux-blue));
+            padding:100px 20px;
+            gap:50px;
+            max-width:100%;
+        }
+        .hero-text h1 {
+            color:var(--main-light);
+            font-size:48px;
+            line-height:1.25;
+            margin-bottom:28px;
+            letter-spacing: -1px;
+        }
+        .hero-text p {
+            color:var(--high-gray);
+            font-size:19px;
+            line-height:1.8;
+            margin-bottom:40px;
+            max-width: 600px;
+        }
+        .hero-btn {
+            padding:16px 36px;
+            background:var(--high-green);
+            border:none;
+            color:var(--main-dark);
+            font-weight:600;
+            border-radius:8px;
+            cursor:pointer;
+            text-decoration:none;
+            display:inline-block;
+            transition:var(--transition);
+            box-shadow: var(--shadow-sm);
+            font-size: 16px;
+        }
+        .hero-btn:hover {
+            background:var(--neu-yellow);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+        .hero-img-box {
+            position: relative;
+        }
+        .hero-img-box img {
+            width:100%;
+            border-radius:12px;
+            box-shadow:0 15px 35px rgba(0,0,0,0.3);
+            transform: translateY(5px);
+        }
+        .hero-img-box::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--high-green);
+            border-radius: 12px;
+            z-index: -1;
+        }
+        /* About */
+        #about {
+            scroll-margin-top:80px;
+        }
+        .about-grid {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:60px;
+            align-items: center;
+        }
+        .about-img {
+            position: relative;
+        }
+        .about-img img {
+            width:100%;
+            border-radius:10px;
+            box-shadow: var(--shadow-md);
+        }
+        .about-img::before {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            width: 80%;
+            height: 80%;
+            background: var(--neu-purple);
+            border-radius: 10px;
+            z-index: -1;
+        }
+        .about-content h3 {
+            font-size: 30px;
+            margin-bottom: 24px;
+            color: var(--main-dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .about-content h3::before {
+            content: '';
+            width: 4px;
+            height: 30px;
+            background: var(--high-green);
+            border-radius: 4px;
+        }
+        .about-content p {
+            line-height:1.85;
+            margin-bottom:20px;
+            color:#333;
+            font-size: 17px;
+        }
+        .about-advantages {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        .advantage-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .advantage-icon {
+            font-size: 20px;
+            color: var(--high-green);
+            margin-top: 4px;
+        }
+        .advantage-text h4 {
+            font-size: 18px;
+            margin-bottom: 6px;
+            color: var(--main-dark);
+        }
+        .advantage-text p {
+            font-size: 15px;
+            margin-bottom: 0;
+            color: #555;
+            line-height: 1.7;
+        }
+        /* Service */
+        #services {
+            scroll-margin-top:80px;
+            background:var(--neu-purple);
+            max-width:100%;
+            padding: 90px 20px;
+        }
+        .service-wrap {
+            max-width:1400px;
+            margin:0 auto;
+            padding:0 20px;
+        }
+        .service-grid {
+            display:grid;
+            grid-template-columns: repeat(3,1fr);
+            gap:36px;
+        }
+        .service-card {
+            background:var(--main-light);
+            padding:40px 32px;
+            border-radius:12px;
+            box-shadow:var(--shadow-sm);
+            transition:var(--transition);
+            border-top: 4px solid transparent;
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-md);
+            border-top-color: var(--high-green);
+        }
+        .service-card h4 {
+            font-size:24px;
+            margin-bottom:18px;
+            color:var(--main-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .service-card h4 i {
+            font-size: 28px;
+            color: var(--aux-blue);
+        }
+        .service-card p {
+            line-height:1.8;
+            color:#383838;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .service-highlight {
+            color:var(--high-green);
+            font-weight:600;
+        }
+        .service-subdesc {
+            padding-top: 15px;
+            border-top: 1px solid rgba(90,127,166,0.1);
+            margin-top: 15px;
+        }
+        .service-subdesc ul {
+            list-style: none;
+        }
+        .service-subdesc li {
+            padding: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            color: #555;
+        }
+        .service-subdesc li::before {
+            content: '✓';
+            color: var(--high-green);
+            font-weight: bold;
+        }
+        /* Data Module */
+        #data {
+            scroll-margin-top:80px;
+            padding-bottom: 100px;
+        }
+        .data-grid {
+            display:grid;
+            grid-template-columns: repeat(4,1fr);
+            gap:30px;
+        }
+        .data-box {
+            background:linear-gradient(135deg, var(--aux-pink) 0%, var(--neu-purple) 100%);
+            padding:40px 25px;
+            text-align:center;
+            border-radius:12px;
+            box-shadow: var(--shadow-sm);
+            transition:var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .data-box:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        .data-box::after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: rgba(156, 217, 189, 0.2);
+            border-radius: 50%;
+        }
+        .data-num {
+            font-size:48px;
+            font-weight:bold;
+            color:var(--high-green);
+            margin-bottom:12px;
+            line-height: 1;
+        }
+        .data-label {
+            color:var(--aux-blue);
+            font-weight:600;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        /* Contact */
+        #contact {
+            scroll-margin-top:80px;
+            background:var(--aux-blue);
+            max-width:100%;
+            padding: 90px 20px;
+        }
+        .contact-wrap {
+            max-width:1400px;
+            margin:0 auto;
+            padding:0 20px;
+        }
+        .contact-inner {
+            display:grid;
+            grid-template-columns:45% 55%;
+            gap:50px;
+        }
+        .contact-info h3 {
+            color:var(--main-light);
+            font-size:28px;
+            margin-bottom:26px;
+            position: relative;
+            padding-bottom: 12px;
+        }
+        .contact-info h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--high-green);
+        }
+        .contact-info p {
+            color:var(--main-light);
+            font-size:18px;
+            margin-bottom:18px;
+            line-height:1.8;
+        }
+        .contact-info .contact-detail {
+            margin: 25px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .contact-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .contact-detail-item i {
+            font-size: 20px;
+            color: var(--high-green);
+        }
+        .contact-form {
+            background:var(--main-light);
+            padding:40px 35px;
+            border-radius:12px;
+            box-shadow: var(--shadow-md);
+        }
+        .form-item {
+            margin-bottom:24px;
+        }
+        .form-item label {
+            display:block;
+            margin-bottom:8px;
+            color:var(--main-dark);
+            font-weight:600;
+            font-size: 16px;
+        }
+        .form-item input,.form-item textarea {
+            width:100%;
+            padding:14px 16px;
+            border:1px solid var(--high-gray);
+            border-radius:8px;
+            font-size:16px;
+            transition:var(--transition);
+        }
+        .form-item input:focus,.form-item textarea:focus {
+            outline: none;
+            border-color: var(--aux-blue);
+            box-shadow: 0 0 0 3px rgba(90,127,166,0.1);
+        }
+        .submit-btn {
+            width:100%;
+            padding:15px;
+            background:var(--main-dark);
+            color:var(--main-light);
+            border:none;
+            border-radius:8px;
+            font-size:17px;
+            font-weight:600;
+            cursor:pointer;
+            transition:var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+        .submit-btn:hover {
+            background:var(--high-green);
+            color:var(--main-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .success-tip {
+            display:none;
+            text-align:center;
+            padding:18px;
+            background:var(--high-green);
+            color:var(--main-dark);
+            margin-top:20px;
+            border-radius:8px;
+            font-weight: 500;
+        }
+        /* Footer */
+        footer {
+            background:var(--main-dark);
+            color:var(--main-light);
+            text-align:center;
+            padding:45px 20px;
+        }
+        .footer-top {
+            max-width: 1400px;
+            margin: 0 auto 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--high-green);
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 15px;
+        }
+        .footer-links a {
+            color: var(--main-light);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+        .footer-links a:hover {
+            color: var(--high-green);
+        }
+        .footer-bottom {
+            font-size: 14px;
+            color: var(--high-gray);
+        }
+        .footer-bottom p {
+            margin-top: 8px;
+        }
+        /* Mobile Style */
+        @media(max-width:992px){
+            .nav-menu {display:none;}
+            .mobile-menu-btn {display:block;}
+            .hero-wrap,.about-grid,.contact-inner {grid-template-columns:1fr;}
+            .hero-wrap {
+                padding:80px 20px;
+                text-align: center;
+            }
+            .hero-text p {
+                max-width: 100%;
+                margin: 0 auto 30px;
+            }
+            .hero-img-box {
+                margin-top: 40px;
+            }
+            .service-grid {grid-template-columns: repeat(2,1fr);}
+            .data-grid {grid-template-columns: repeat(2,1fr);}
+            .hero-text h1 {font-size:38px;}
+            .about-advantages {
+                grid-template-columns: 1fr;
+            }
+            .contact-inner {
+                gap: 40px;
+            }
+        }
+        @media(max-width:576px){
+            .service-grid,.data-grid {grid-template-columns:1fr;}
+            .section-title {font-size:30px;}
+            .hero-text h1 {font-size:32px;}
+            .section {
+                padding: 60px 20px;
+            }
+            .about-grid {
+                gap: 30px;
+            }
+            .service-card {
+                padding: 30px 24px;
+            }
+            .data-box {
+                padding: 30px 20px;
+            }
+            .data-num {
+                font-size: 38px;
+            }
+        }
+    </style>
+    <!-- 引入图标库增强视觉 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">WOWARE</div>
+            <nav class="nav-menu">
+                <a href="#home">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#services">Our Services</a>
+                <a href="#data">Company Data</a>
+                <a href="#contact">Contact Us</a>
+            </nav>
+            <div class="mobile-menu-btn" id="openMenu"><i class="fas fa-bars"></i></div>
+        </div>
+    </header>
+    <!-- Mobile Nav Popup -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-close" id="closeMenu"><i class="fas fa-times"></i></div>
+        <a href="#home" class="mobile-link">Home</a>
+        <a href="#about" class="mobile-link">About Us</a>
+        <a href="#services" class="mobile-link">Our Services</a>
+        <a href="#data" class="mobile-link">Company Data</a>
+        <a href="#contact" class="mobile-link">Contact Us</a>
+    </div>
+
+    <!-- Home Hero Section -->
+    <section id="home">
+        <div class="hero-wrap">
+            <div class="hero-text">
+                <h1>Professional Global Financial Information Consulting</h1>
+                <p>WOWARE provides customized financial analysis, market research and asset consulting services for global enterprises and individual investors with decades of industry experience and professional analyst teams.</p>
+                <a href="#contact" class="hero-btn">Get Free Consultation</a>
+            </div>
+            <div class="hero-img-box">
+                <img src="https://anasoldi85-lgtm.github.io/1-7/24.jpg" alt="WOWARE Financial Consulting">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about">
+        <div class="section-header">
+            <h2 class="section-title">About WOWARE</h2>
+            <div class="section-divider"></div>
+            <p class="section-subtitle">Founded in Cambridge UK, we focus on reliable financial information consulting for global clients across multiple financial sectors.</p>
+        </div>
+        <div class="about-grid">
+            <div class="about-img">
+                <img src="https://anasoldi85-lgtm.github.io/1-7/25.jpg" alt="Company Office">
+            </div>
+            <div class="about-content">
+                <h3>Our Corporate Mission & Development</h3>
+                <p>Established in Cambridge, England, WOWARE is a professional financial information consulting institution rooted in European financial markets. We gather senior financial analysts, market researchers and risk control experts from various financial fields.</p>
+                <p>We always adhere to objective, rigorous and customer-oriented service standards, helping clients avoid market risks and capture reasonable investment returns through accurate financial data analysis and market trend research.</p>
+                <p>Our business covers European, Asian and American mainstream financial markets, serving thousands of institutional and individual customers steadily every year.</p>
+                
+                <!-- 新增：公司优势子内容 -->
+                <div class="about-advantages">
+                    <div class="advantage-item">
+                        <div class="advantage-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="advantage-text">
+                            <h4>Risk Control Expertise</h4>
+                            <p>Advanced risk assessment models to minimize investment risks</p>
+                        </div>
+                    </div>
+                    <div class="advantage-item">
+                        <div class="advantage-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="advantage-text">
+                            <h4>Real-time Market Data</h4>
+                            <p>24/7 global market monitoring and data analysis</p>
+                        </div>
+                    </div>
+                    <div class="advantage-item">
+                        <div class="advantage-icon"><i class="fas fa-users"></i></div>
+                        <div class="advantage-text">
+                            <h4>Professional Team</h4>
+                            <p>Certified financial analysts with 10+ years experience</p>
+                        </div>
+                    </div>
+                    <div class="advantage-item">
+                        <div class="advantage-icon"><i class="fas fa-globe"></i></div>
+                        <div class="advantage-text">
+                            <h4>Global Coverage</h4>
+                            <p>Services across 15+ countries with localized support</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Services Section -->
+    <section id="services">
+        <div class="service-wrap">
+            <div class="section-header">
+                <h2 class="section-title">Core Consulting Services</h2>
+                <div class="section-divider"></div>
+                <p class="section-subtitle">Diversified financial consulting solutions tailored to different customer needs</p>
+            </div>
+            <div class="service-grid">
+                <div class="service-card">
+                    <h4><i class="fas fa-globe-americas"></i> Global Market Research</h4>
+                    <p>Track real-time fluctuations of global stock, foreign exchange and commodity markets, release regular industry research reports, <span class="service-highlight">support customized market trend analysis</span> for institutional clients.</p>
+                    <!-- 新增：服务子描述 -->
+                    <div class="service-subdesc">
+                        <ul>
+                            <li>Weekly market trend reports with expert commentary</li>
+                            <li>Customized research for specific industry sectors</li>
+                            <li>Competitor analysis and market share evaluation</li>
+                            <li>Long-term market forecast (1-5 years)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h4><i class="fas fa-wallet"></i> Personal Asset Consulting</h4>
+                    <p>One-on-one financial asset allocation planning for individual investors, optimize portfolio structure according to personal risk preference and capital cycle, reduce investment volatility risks.</p>
+                    <!-- 新增：服务子描述 -->
+                    <div class="service-subdesc">
+                        <ul>
+                            <li>Personalized asset allocation strategy</li>
+                            <li>Retirement planning and wealth inheritance</li>
+                            <li>Tax optimization for cross-border investments</li>
+                            <li>Regular portfolio performance review</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h4><i class="fas fa-building"></i> Enterprise Financial Advisory</h4>
+                    <p>Provide corporate financing consulting, industry due diligence and financial risk assessment services for small and medium enterprises listed in Europe, assist enterprises in standardized financial operation.</p>
+                    <!-- 新增：服务子描述 -->
+                    <div class="service-subdesc">
+                        <ul>
+                            <li>IPO consulting for European stock exchanges</li>
+                            <li>Financial due diligence for mergers & acquisitions</li>
+                            <li>Corporate financial risk management system</li>
+                            <li>Capital structure optimization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Data Module -->
+    <section id="data">
+        <div class="section-header">
+            <h2 class="section-title">Our Operational Data</h2>
+            <div class="section-divider"></div>
+            <p class="section-subtitle">Reliable operating data witnessing our steady development in financial consulting industry</p>
+        </div>
+        <div class="data-grid">
+            <div class="data-box">
+                <div class="data-num">12+</div>
+                <div class="data-label">Years Industry Experience</div>
+            </div>
+            <div class="data-box">
+                <div class="data-num">3200+</div>
+                <div class="data-label">Served Global Clients</div>
+            </div>
+            <div class="data-box">
+                <div class="data-num">68</div>
+                <div class="data-label">Senior Financial Analysts</div>
+            </div>
+            <div class="data-box">
+                <div class="data-num">15</div>
+                <div class="data-label">Covered Global Regions</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Us Page -->
+    <section id="contact">
+        <div class="contact-wrap">
+            <div class="section-header">
+                <h2 class="section-title" style="color:#FFF8F3;">Contact Information</h2>
+                <div class="section-divider" style="background:#FFF8F3;"></div>
+                <p class="section-subtitle" style="color:#FFF;">Submit your consultation request and we will reply to you within 24 working hours</p>
+            </div>
+            <div class="contact-inner">
+                <div class="contact-info">
+                    <h3>WOWARE Company Info</h3>
+                    <p>We welcome on-site visits, phone calls and online message consultation. Our professional customer service team will answer all your financial consulting questions patiently.</p>
+                    
+                    <!-- 新增：联系方式明细 -->
+                    <div class="contact-detail">
+                        <div class="contact-detail-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>England Cambridge 87 Rose Cres</span>
+                        </div>
+                        <div class="contact-detail-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+44 7608646684</span>
+                        </div>
+                        <div class="contact-detail-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>info@WOWARE-finance.com</span>
+                        </div>
+                        <div class="contact-detail-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Monday - Friday 9:00 - 18:00 (UK Local Time)</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:30px;">
+                        <img src="https://anasoldi85-lgtm.github.io/1-7/26.jpg" style="width:100%;border-radius:10px;" alt="Company Location">
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-item">
+                            <label>Your Full Name</label>
+                            <input type="text" required placeholder="Please input your name">
+                        </div>
+                        <div class="form-item">
+                            <label>Contact Email</label>
+                            <input type="email" required placeholder="Please input your email">
+                        </div>
+                        <div class="form-item">
+                            <label>Consult Type (Optional)</label>
+                            <select class="form-item input" style="width:100%;padding:14px 16px;border-radius:8px;border:1px solid var(--high-gray);">
+                                <option value="">Select Consultation Type</option>
+                                <option value="market">Global Market Research</option>
+                                <option value="personal">Personal Asset Consulting</option>
+                                <option value="enterprise">Enterprise Financial Advisory</option>
+                                <option value="other">Other Consulting Needs</option>
+                            </select>
+                        </div>
+                        <div class="form-item">
+                            <label>Consult Content</label>
+                            <textarea rows="5" required placeholder="Describe your financial consulting needs"></textarea>
+                        </div>
+                        <button class="submit-btn" type="submit">Submit Your Information</button>
+                        <div class="success-tip" id="successMsg">Your information has been submitted successfully! Our staff will contact you soon.</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-top">
+            <div class="footer-logo">WOWARE</div>
+            <p>Professional Global Financial Information Consulting</p>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#services">Services</a>
+                <a href="#data">Company Data</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 WOWARE Financial Information Consulting | All Rights Reserved</p>
+            <p>Address: England Cambridge 87 Rose Cres | Tel: +44 7608646684</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const openMenu = document.getElementById('openMenu');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        openMenu.addEventListener('click',()=>{
+            mobileNav.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        closeMenu.addEventListener('click',()=>{
+            mobileNav.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+        mobileLinks.forEach(link=>{
+            link.addEventListener('click',()=>{
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            })
+        })
+
+        // Form submit always success
+        const contactForm = document.getElementById('contactForm');
+        const successMsg = document.getElementById('successMsg');
+        contactForm.addEventListener('submit',function(e){
+            e.preventDefault();
+            successMsg.style.display = 'block';
+            contactForm.reset();
+            setTimeout(()=>{
+                successMsg.style.display = 'none';
+            },4000)
+        })
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+            anchor.addEventListener('click',function(e){
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetEle = document.querySelector(targetId);
+                if(targetEle){
+                    targetEle.scrollIntoView({behavior:'smooth'});
+                }
+            })
+        })
+
+        // 数字滚动动效
+        function animateNumbers() {
+            const dataNums = document.querySelectorAll('.data-num');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const numElement = entry.target;
+                        const targetNum = numElement.innerText.replace('+', '');
+                        let currentNum = 0;
+                        const duration = 2000; // 动画时长
+                        const step = targetNum / (duration / 16);
+                        
+                        const timer = setInterval(() => {
+                            currentNum += step;
+                            if (currentNum >= targetNum) {
+                                clearInterval(timer);
+                                currentNum = targetNum;
+                                numElement.innerText = targetNum + (numElement.innerText.includes('+') ? '+' : '');
+                            }
+                            numElement.innerText = Math.floor(currentNum) + (numElement.innerText.includes('+') ? '+' : '');
+                        }, 16);
+                        observer.unobserve(numElement);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            dataNums.forEach(num => observer.observe(num));
+        }
+
+        // 页面加载完成后初始化数字动画
+        window.addEventListener('load', animateNumbers);
+    </script>
+</body>
+</html>
